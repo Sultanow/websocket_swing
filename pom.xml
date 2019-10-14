@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>websocket_swing</groupId>
+	<artifactId>websocket_swing</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.websocket/websocket-api -->
+		<dependency>
+			<groupId>org.glassfish.websocket</groupId>
+			<artifactId>websocket-api</artifactId>
+			<version>0.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-client -->
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-client</artifactId>
+			<version>1.15</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-websocket-core -->
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-websocket-core</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-spi -->
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-spi</artifactId>
+			<version>1.15</version>
+		</dependency>
+
+
+	</dependencies>
+
+</project>
