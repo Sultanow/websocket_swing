@@ -14,12 +14,10 @@ import javax.websocket.WebSocketContainer;
 public class Main {
 
 	public static void main(String[] args) throws IOException, DeploymentException {
-
 		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 		String uri = "ws://localhost:1337/";
 		System.out.println("Connecting to " + uri);
 		container.connectToServer(ClientEndpoint.class, URI.create(uri));
-
 	}
 
 	@javax.websocket.ClientEndpoint

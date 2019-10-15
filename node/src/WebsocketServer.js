@@ -1,30 +1,71 @@
-var WebSocketServer = require('websocket').server;
+var webSocketServer = require('websocket').server;
 var http = require('http');
 
-var server = http.createServer(function(request, response) {
-  // process HTTP request. Since we're writing just WebSockets
-  // server we don't have to implement anything.
-});
-server.listen(1337, function() { });
+// Global variables
+var webSocketsServerPort = 1337;
+var messages = [];
+var clients = [];
 
-// create the server
-wsServer = new WebSocketServer({
-  httpServer: server
+// HTTP server
+var server = http.createServer(function(request, response) {
+});
+server.listen(webSocketsServerPort, function() {
+	console.log((new Date()) + " Server is listening on port "
+			+ webSocketsServerPort);
 });
 
 // WebSocket server
+var wsServer = new webSocketServer({
+	// WebSocket server is tied to a HTTP server. WebSocket
+	// request is just an enhanced HTTP request:
+	// http://tools.ietf.org/html/rfc6455#page-6
+	httpServer : server
+});
+
+// This callback function is called every time someone
+// tries to connect to the WebSocket server
 wsServer.on('request', function(request) {
-  var connection = request.accept(null, request.origin);
+	console.log((new Date()) + ' Connection from origin ' + request.origin
+			+ '.');
 
-  // This is the most important callback for us, we'll handle
-  // all messages from users here.
-  connection.on('message', function(message) {
-    if (message.type === 'utf8') {
-      // process WebSocket message
-    }
-  });
+	// later we maybe allow cross-origin requests
+	var connection = request.accept(null, request.origin);
 
-  connection.on('close', function(connection) {
-    // close user connection
-  });
+	// we need to know client index to remove them on 'close' event
+	var index = clients.push(connection) - 1;
+
+	console.log((new Date()) + ' Connection accepted.');
+
+	// send back chat history
+	connection.sendUTF(JSON.stringify({
+		type : 'textfield',
+		data : 'blablub'
+	}));
+
+	// user sent some message
+	connection.on('message',
+			function(message) {
+				if (message.type === 'utf8') {
+					// log and broadcast the message
+					console.log((new Date()) + ' Received Message '
+							+ message.utf8Data);
+
+					// broadcast message to all connected clients
+					var json = JSON.stringify({
+						type : 'message',
+						data : message.utf8Data
+					});
+					for (var i = 0; i < clients.length; i++) {
+						clients[i].sendUTF(json);
+					}
+				}
+			});
+
+	// user disconnected
+	connection.on('close', function(connection) {
+		console.log((new Date()) + " Peer " + connection.remoteAddress
+				+ " disconnected.");
+		// remove user from the list of connected clients
+		clients.splice(index, 1);
+	});
 });
