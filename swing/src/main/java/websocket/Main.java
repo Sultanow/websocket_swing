@@ -1,10 +1,22 @@
 package websocket;
 
+import java.awt.BorderLayout;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
+import javax.json.Json;
+import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParser.Event;
+import javax.json.stream.JsonParserFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -21,7 +33,12 @@ public class Main {
 	// counter in onClose() method.
 	private static CountDownLatch latch;
 
+	private static JFrame frame = new JFrame("Ahlehkro");
+	private static JTextArea textArea = new JTextArea();
+	
 	public static void main(String[] args) throws IOException, DeploymentException {
+		initUI();
+		
 		latch = new CountDownLatch(1);
 		
 		String uri = "ws://localhost:1337/";
@@ -29,9 +46,20 @@ public class Main {
 
 		// open websocket
 		final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(URI.create(uri));
-		clientEndPoint.sendMessage("{''}");
+		//clientEndPoint.sendMessage("{''}");
 	}
 
+	private static void initUI() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(textArea, BorderLayout.CENTER);
+		frame.getContentPane().add(panel);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800, 600);
+		frame.setVisible(true);
+	}
+	
 	@javax.websocket.ClientEndpoint
 	public static class WebsocketClientEndpoint {
 
@@ -79,7 +107,19 @@ public class Main {
 		 */
 		@OnMessage
 		public void onMessage(String message) {
-			System.out.println(message);
+			JsonParserFactory jsonParserFactory = Json.createParserFactory(null);
+			JsonParser jsonParser = jsonParserFactory.createParser(new StringReader(message));
+			boolean data = false;
+			while(jsonParser.hasNext()) {
+				Event e = jsonParser.next();
+				if (Event.KEY_NAME.equals(e) && "data".equals(jsonParser.getString())) {
+					data = true;
+				}
+				if (data && Event.VALUE_STRING.equals(e)) {
+					System.out.println();
+					textArea.setText(jsonParser.getString());
+				}
+			}
 		}
 
 		public void sendMessage(String message) {

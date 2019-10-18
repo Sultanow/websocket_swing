@@ -37,10 +37,10 @@ wsServer.on('request', function(request) {
 	console.log((new Date()) + ' Connection accepted.');
 
 	// send back chat history
-	connection.sendUTF(JSON.stringify({
-		type : 'textfield',
-		data : 'blablub'
-	}));
+	//connection.sendUTF(JSON.stringify({
+	//	type : 'textfield',
+	//	data : 'blablub'
+	//}));
 
 	// user sent some message
 	connection.on('message',
