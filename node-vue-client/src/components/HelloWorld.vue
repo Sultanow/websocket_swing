@@ -9,6 +9,32 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  mounted:function(){
+    this.connect();
+  },
+  methods: {
+    connect() {
+      this.socket = new WebSocket("ws://localhost:1337/");
+      this.socket.onopen = () => {
+        alert('opened');
+        this.status = "connected";   
+        //this.socket.onmessage = ({data}) => {};
+      };
+    },
+    disconnect() {
+      this.socket.close();
+      this.status = "disconnected";
+      this.logs = [];
+    },
+    sendMessage(e) {
+      this.socket.send(e);
+    }
+  },
+  watch: {
+    msg: function(val) {
+      this.sendMessage(val);
+    }
   }
 }
 </script>
