@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="header">
+  <span id="logo"></span>
+  <span>We are one StEP ahead</span>
+  </div>
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
   components: {
@@ -23,5 +26,23 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#header {
+	color: #fff;
+	background-color: #ff2b06;
+	font-size: 40pt;
+	margin: 0px;
+	padding: 0;
+	height: 80px;
+}
+#logo {
+	position:absolute;
+	left: 0;
+	display:inline-block;
+	background-image: url('./assets/bundesagentur.jpg');
+	background-size: 80px;
+	background-repeat: no-repeat;
+	width: 120px;
+	height: 80px;
 }
 </style>

@@ -1,20 +1,21 @@
 package websocket;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
 import javax.json.Json;
-import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.websocket.CloseReason;
@@ -51,10 +52,15 @@ public class Main {
 
 	private static void initUI() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(textArea, BorderLayout.CENTER);
-		frame.getContentPane().add(panel);
+		panel.setLayout(new GridLayout(4, 1));
+		panel.add(new JLabel("ALLEGRO - Java Swing RichClient"));
+		panel.add(new JList<String>(new String[]{"BG 17627","BG 89796"}));
+		textArea.setPreferredSize(new Dimension(200,400));
+		textArea.setBorder(BorderFactory.createEtchedBorder());
+		panel.add(textArea);
+		panel.add(new JButton("Anordnen"));
 		
+		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		frame.setVisible(true);

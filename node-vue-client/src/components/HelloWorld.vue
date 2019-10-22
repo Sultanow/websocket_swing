@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <textarea v-model="msg" placeholder="add multiple lines"></textarea>
+    <textarea cols="100" rows="4" v-model="msg" placeholder="add multiple lines"></textarea>
   </div>
 </template>
 
@@ -53,5 +53,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.hello {
+margin: 100px;
 }
 </style>
