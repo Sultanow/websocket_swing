@@ -3,7 +3,7 @@ package websocket;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Insets;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -42,7 +42,7 @@ public class Main {
 	private static JTextField textField = new JTextField("Suchergebnis aus StEP");
 
 	private static JsonParserFactory jsonParserFactory = Json.createParserFactory(null);
-	
+
 	public static void main(String[] args) throws IOException, DeploymentException {
 		initUI();
 
@@ -56,20 +56,61 @@ public class Main {
 		// clientEndPoint.sendMessage("{''}");
 	}
 
-	private static void initUI() {		
+	private static void initUI() {
 		JPanel panel = new JPanel();
-		
-		GridBagLayout gbl = new GridBagLayout();
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		panel.setLayout(new GridLayout(5, 1));
-		panel.add(new JLabel("ALLEGRO - Java Swing RichClient"));
-		panel.add(new JList<String>(new String[] { "BG 17627", "BG 89796" }));
+		panel.setLayout(new GridBagLayout());
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.ipady = 4;
+		c.insets = new Insets(4, 4, 4, 4);
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0;
+		panel.add(new JLabel("Bedarfsgemeinschaften"), c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(new JList<String>(new String[] { "BG 17627", "BG 89796" }), c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 0;
+		c.fill = GridBagConstraints.NONE;
+		panel.add(new JLabel("Ergebnis aus StEP"), c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		textArea.setPreferredSize(new Dimension(200, 400));
+		textArea.setBorder(BorderFactory.createEtchedBorder());
+		panel.add(textField);
+		panel.add(textField, c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weightx = 0;
+		c.fill = GridBagConstraints.NONE;
+		panel.add(new JLabel("Kommentare in Echtzeit"), c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		c.weightx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		textArea.setPreferredSize(new Dimension(200, 400));
 		textArea.setBorder(BorderFactory.createEtchedBorder());
 		panel.add(textArea);
-		panel.add(textField);
-		panel.add(new JButton("Anordnen"));
+		panel.add(textArea, c);
+
+		c.gridx = 1;
+		c.gridy = 3;
+		c.weightx = 0;
+		c.fill = GridBagConstraints.NONE;
+		panel.add(new JButton("Anordnen"), c);
 
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
