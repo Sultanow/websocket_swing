@@ -1,6 +1,8 @@
 package websocket;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.StringReader;
@@ -18,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -34,38 +37,46 @@ public class Main {
 	// counter in onClose() method.
 	private static CountDownLatch latch;
 
-	private static JFrame frame = new JFrame("Ahlehkro");
+	private static JFrame frame = new JFrame("Allegro");
 	private static JTextArea textArea = new JTextArea();
+	private static JTextField textField = new JTextField("Suchergebnis aus StEP");
+
+	private static JsonParserFactory jsonParserFactory = Json.createParserFactory(null);
 	
 	public static void main(String[] args) throws IOException, DeploymentException {
 		initUI();
-		
+
 		latch = new CountDownLatch(1);
-		
+
 		String uri = "ws://localhost:1337/";
 		System.out.println("Connecting to " + uri);
 
 		// open websocket
 		final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(URI.create(uri));
-		//clientEndPoint.sendMessage("{''}");
+		// clientEndPoint.sendMessage("{''}");
 	}
 
-	private static void initUI() {
+	private static void initUI() {		
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 1));
+		
+		GridBagLayout gbl = new GridBagLayout();
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		panel.setLayout(new GridLayout(5, 1));
 		panel.add(new JLabel("ALLEGRO - Java Swing RichClient"));
-		panel.add(new JList<String>(new String[]{"BG 17627","BG 89796"}));
-		textArea.setPreferredSize(new Dimension(200,400));
+		panel.add(new JList<String>(new String[] { "BG 17627", "BG 89796" }));
+		textArea.setPreferredSize(new Dimension(200, 400));
 		textArea.setBorder(BorderFactory.createEtchedBorder());
 		panel.add(textArea);
+		panel.add(textField);
 		panel.add(new JButton("Anordnen"));
-		
+
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
-	
+
 	@javax.websocket.ClientEndpoint
 	public static class WebsocketClientEndpoint {
 
@@ -77,8 +88,8 @@ public class Main {
 				container.connectToServer(this, endpointURI);
 				latch.await();
 			} catch (DeploymentException | IOException | InterruptedException e) {
-	            throw new RuntimeException(e);
-	        }
+				throw new RuntimeException(e);
+			}
 		}
 
 		/**
@@ -112,24 +123,59 @@ public class Main {
 		 * @param message The text message
 		 */
 		@OnMessage
-		public void onMessage(String message) {
-			JsonParserFactory jsonParserFactory = Json.createParserFactory(null);
-			JsonParser jsonParser = jsonParserFactory.createParser(new StringReader(message));
-			boolean data = false;
-			while(jsonParser.hasNext()) {
-				Event e = jsonParser.next();
-				if (Event.KEY_NAME.equals(e) && "data".equals(jsonParser.getString())) {
-					data = true;
-				}
-				if (data && Event.VALUE_STRING.equals(e)) {
-					System.out.println();
-					textArea.setText(jsonParser.getString());
-				}
+		public void onMessage(String json) {
+			Message message = extract(json);
+
+			switch (message.target) {
+			case "textarea":
+				textArea.setText(message.content);
+				return;
+			case "textfield":
+				textField.setText(message.content);
+				return;
 			}
 		}
 
 		public void sendMessage(String message) {
 			this.userSession.getAsyncRemote().sendText(message);
+		}
+
+		public static Message extract(String json) {
+			JsonParser jsonParser = jsonParserFactory.createParser(new StringReader(json));
+			boolean target = false;
+			String strTarget = "";
+			boolean content = false;
+			String strContent = "";
+			while (jsonParser.hasNext()) {
+				Event e = jsonParser.next();
+				if (Event.KEY_NAME.equals(e) && "target".equals(jsonParser.getString())) {
+					target = true;
+				}
+				if (target && Event.VALUE_STRING.equals(e)) {
+					strTarget = jsonParser.getString();
+					target = false;
+				}
+
+				if (Event.KEY_NAME.equals(e) && "content".equals(jsonParser.getString())) {
+					content = true;
+				}
+				if (content && Event.VALUE_STRING.equals(e)) {
+					strContent = jsonParser.getString();
+					content = false;
+				}
+			}
+			return new Message(strTarget, strContent);
+		}
+	}
+
+	private static final class Message {
+		public final String target;
+		public final String content;
+
+		public Message(String target, String message) {
+			super();
+			this.target = target;
+			this.content = message;
 		}
 	}
 }

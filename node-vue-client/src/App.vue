@@ -4,7 +4,7 @@
   <span id="logo"></span>
   <span>We are one StEP ahead</span>
   </div>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HelloWorld content_textarea="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
