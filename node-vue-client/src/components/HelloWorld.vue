@@ -13,7 +13,7 @@
     </div>
 
     <div id="send_to_allegro">
-      <button v-on:click="sendMessage(data_result_selected, 'textfield');">Nach ALLEGRO übernehmen</button>
+      <button v-on:click="sendMessage(data_result_selected, 'textfield');">Nach ALLEGRO &uuml;bernehmen</button>
     </div>
 
     <div id="textarea">
@@ -37,7 +37,7 @@ export default {
       data_first: this.first,
       data_result: [],
       data_result_selected: this.selected_result,
-      search_space: [['Hans', 'Mayer'], ['Linda', 'Reitmayr'], ['Karl', 'May'], ['Jens', 'Müller'], ['Steffi', 'Ruckmüller']]
+      search_space: [['Hans', 'Mayer'], ['Linda', 'Reitmayr'], ['Karl', 'May'], ['Jens', 'Mueller'], ['Steffi', 'Ruckmueller']]
     };
   },
   mounted:function(){
