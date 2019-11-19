@@ -86,8 +86,6 @@ public class Main {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		textArea.setPreferredSize(new Dimension(200, 400));
-		textArea.setBorder(BorderFactory.createEtchedBorder());
 		panel.add(textField);
 		panel.add(textField, c);
 
