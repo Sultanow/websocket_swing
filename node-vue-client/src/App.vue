@@ -2,18 +2,18 @@
   <div id="app">
   <div id="header">
   <span id="logo"></span>
-  <span>We are one StEP ahead</span>
+  <span>Search Mock</span>
   </div>
-  <HelloWorld content_textarea="Welcome to Your Vue.js App"/>
+  <Search content_textarea="Search Mock"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Search from './components/Search.vue'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Search
   }
 }
 </script>
@@ -39,7 +39,6 @@ export default {
 	position:absolute;
 	left: 0;
 	display:inline-block;
-	background-image: url('./assets/bundesagentur.jpg');
 	background-size: 80px;
 	background-repeat: no-repeat;
 	width: 120px;
