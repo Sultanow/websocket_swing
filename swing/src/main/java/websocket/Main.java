@@ -1,26 +1,16 @@
 package websocket;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -49,7 +39,12 @@ public class Main {
 	private static JTextField tf_ze_iban = new JTextField();
 	private static JTextField tf_ze_bic = new JTextField();
 	private static JTextField tf_ze_valid_from = new JTextField();
-	
+
+	private static JRadioButton rb_female = new JRadioButton("Weiblich");
+	private static JRadioButton rb_male = new JRadioButton("MÃ¤nnlich");
+	private static JRadioButton rb_diverse = new JRadioButton("Divers");
+	private static ButtonGroup bg_gender = new ButtonGroup();
+
 	private static JsonParserFactory jsonParserFactory = Json.createParserFactory(null);
 
 	public static void main(String[] args) throws IOException, DeploymentException {
@@ -109,87 +104,115 @@ public class Main {
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_dob, c);
-		
+
+		bg_gender.add(rb_female);
+		bg_gender.add(rb_male);
+		bg_gender.add(rb_diverse);
+		rb_female.setSelected(true);
+
 		c.gridx = 0;
 		c.gridy = 1;
+		c.weightx = 0;
+		c.fill = GridBagConstraints.CENTER;
+		panel.add(new JLabel("Geschlecht"), c);
+
+		JPanel genderPanel = new JPanel();
+		genderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		genderPanel.add(rb_female);
+		genderPanel.add(rb_male);
+		genderPanel.add(rb_diverse);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 0;
+		c.gridwidth = 2;
+		c.anchor = GridBagConstraints.WEST;
+		panel.add(genderPanel, c);
+
+		// Reset grid layout
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+		c.gridx = 0;
+		c.gridy = 2;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("Strasse"), c);
 
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_street, c);
 		
 		c.gridx = 2;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("PLZ"), c);
 
 		c.gridx = 3;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_zip, c);
 		
 		c.gridx = 4;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("Ort"), c);
 
 		c.gridx = 5;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_ort, c);
 		
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("IBAN"), c);
 
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_ze_iban, c);
 		
 		c.gridx = 2;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("BIC"), c);
 
 		c.gridx = 3;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_ze_bic, c);
 		
 		c.gridx = 4;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
-		panel.add(new JLabel("Gültig ab"), c);
+		panel.add(new JLabel("Gï¿½ltig ab"), c);
 
 		c.gridx = 5;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(tf_ze_valid_from, c);
 		
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		panel.add(new JLabel("RT"), c);
 
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.gridwidth = 6;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -199,14 +222,18 @@ public class Main {
 		panel.add(textArea, c);
 
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
-		panel.add(new JButton("Anordnen"), c);
+		JButton button = new JButton("Anordnen");
+		button.addActionListener(e -> {
+			System.out.println("Button clicked!");
+		});
+		panel.add(button, c);
 
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		frame.setSize(800, 650);
 		frame.setVisible(true);
 	}
 
