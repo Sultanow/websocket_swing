@@ -22,7 +22,10 @@ public class PocPresenter {
         this.view.button.addActionListener(_ -> {
             try {
                 model.action();
+                view.textArea.setText("");
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });

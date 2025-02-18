@@ -28,7 +28,7 @@ public class PocModel {
         model.put(ModelProperties.DIVERSE, new ValueModel<Boolean>(null));
     }
 
-    public void action() throws IOException {
+    public void action() throws IOException, InterruptedException {
         for(var val : ModelProperties.values()) {
             System.out.println(val.toString() + ": " + model.get(val).getField());
         }
@@ -37,5 +37,7 @@ public class PocModel {
             data.put(val.toString(), model.get(val).getField().toString());
         }
         httpBinService.post(data);
+
+
     }
 }
