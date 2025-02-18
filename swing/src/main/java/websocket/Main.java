@@ -124,8 +124,8 @@ public class Main {
 
 		c.gridx = 1;
 		c.gridy = 1;
-		c.weightx = 0;
-		c.gridwidth = 2;
+		c.weightx = 1;
+		c.gridwidth = 5;
 		c.anchor = GridBagConstraints.WEST;
 		panel.add(genderPanel, c);
 
@@ -197,7 +197,7 @@ public class Main {
 		c.gridy = 3;
 		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
-		panel.add(new JLabel("G�ltig ab"), c);
+		panel.add(new JLabel("Gültig ab"), c);
 
 		c.gridx = 5;
 		c.gridy = 3;
