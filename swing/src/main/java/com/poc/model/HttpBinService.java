@@ -12,7 +12,7 @@ public class HttpBinService {
     public static final String PATH = "/post";
     public static final String CONTENT_TYPE = "application/json";
 
-    public int post(Map<String, String> data) throws IOException, InterruptedException {
+    public String post(Map<String, String> data) throws IOException, InterruptedException {
         HttpURLConnection connection = (HttpURLConnection) new java.net.URL(URL + PATH).openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", CONTENT_TYPE);
@@ -26,9 +26,13 @@ public class HttpBinService {
         generator.writeEnd();
         generator.close();
         var responseCode = connection.getResponseCode();
+        var responseBody = new Scanner(connection.getInputStream()).useDelimiter("\\A").next();
         System.out.println("Response code: " + responseCode);
-        System.out.println("Response body: " + new Scanner(connection.getInputStream()).useDelimiter("\\A").next());
+        System.out.println("Response body: " + responseBody);
         connection.disconnect();
-        return responseCode;
+
+
+
+        return responseBody;
     }
 }

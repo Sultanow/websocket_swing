@@ -11,8 +11,9 @@ public class PocModel {
 
     public Map<ModelProperties, ValueModel<?>> model = new EnumMap<>(ModelProperties.class);
     private HttpBinService httpBinService = new HttpBinService();
+    private EventEmitter eventEmitter;
 
-    public PocModel() {
+    public PocModel(EventEmitter eventEmitter) {
         model.put(ModelProperties.TEXT_AREA, new ValueModel<String>(null));
         model.put(ModelProperties.FIRST_NAME, new ValueModel<String>(null));
         model.put(ModelProperties.LAST_NAME, new ValueModel<String>(null));
@@ -26,6 +27,7 @@ public class PocModel {
         model.put(ModelProperties.MALE, new ValueModel<Boolean>(null));
         model.put(ModelProperties.FEMALE, new ValueModel<Boolean>(null));
         model.put(ModelProperties.DIVERSE, new ValueModel<Boolean>(null));
+        this.eventEmitter = eventEmitter;
     }
 
     public void action() throws IOException, InterruptedException {
@@ -36,8 +38,12 @@ public class PocModel {
         for(var val : ModelProperties.values()) {
             data.put(val.toString(), model.get(val).getField().toString());
         }
-        httpBinService.post(data);
-
+        var responseBody = httpBinService.post(data);
+        if(!responseBody.isEmpty()) {
+            eventEmitter.emit(responseBody);
+        } else {
+            eventEmitter.emit("Failed operation");
+        }
 
     }
 }

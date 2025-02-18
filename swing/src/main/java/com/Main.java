@@ -1,5 +1,6 @@
 package com;
 
+import com.poc.model.EventEmitter;
 import com.poc.model.PocModel;
 import com.poc.presentation.PocPresenter;
 import com.poc.presentation.PocView;
@@ -12,8 +13,9 @@ public class Main {
 
         var latch = new CountDownLatch(1);
 		var pocView = new PocView();
-		var pocModel = new PocModel();
-		var _ = new PocPresenter(pocView, pocModel);
+		var eventEmitter = new EventEmitter();
+		var pocModel = new PocModel(eventEmitter);
+		var _ = new PocPresenter(pocView, pocModel, eventEmitter);
 
 		latch.await();
 

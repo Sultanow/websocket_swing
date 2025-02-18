@@ -1,6 +1,7 @@
 package com.poc.presentation;
 
 import com.poc.ValueModel;
+import com.poc.model.EventEmitter;
 import com.poc.model.ModelProperties;
 import com.poc.model.PocModel;
 
@@ -15,14 +16,30 @@ public class PocPresenter {
     private PocView view;
     private PocModel model;
 
-    public PocPresenter(PocView view, PocModel model) {
+    public PocPresenter(PocView view, PocModel model, EventEmitter eventEmitter) {
         this.view = view;
         this.model = model;
+
+        eventEmitter.subscribe(eventData -> {
+            System.out.println("Event data is : " + eventData);
+            view.textArea.setText(eventData);
+            view.firstName.setText("");
+            view.name.setText("");
+            view.dateOfBirth.setText("");
+            view.zip.setText("");
+            view.ort.setText("");
+            view.street.setText("");
+            view.iban.setText("");
+            view.bic.setText("");
+            view.validFrom.setText("");
+            view.female.setSelected(true);
+            view.male.setSelected(false);
+            view.diverse.setSelected(false);
+        });
 
         this.view.button.addActionListener(_ -> {
             try {
                 model.action();
-                view.textArea.setText("");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {
@@ -42,7 +59,7 @@ public class PocPresenter {
                 try {
                     var content = e.getDocument().getText(0, e.getDocument().getLength());
                     model.setField(content);
-                    System.out.println(e.getDocument().getText(0, e.getDocument().getLength()));
+                    System.out.println("I am in insert update. " + e.getDocument().getText(0, e.getDocument().getLength()));
                 } catch (BadLocationException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -54,7 +71,7 @@ public class PocPresenter {
                     var content = e.getDocument().getText(0, e.getDocument().getLength());
                     var model = (ValueModel<String>) PocPresenter.this.model.model.get(prop);
                     model.setField(content);
-                    System.out.println(e.getDocument().getText(0, e.getDocument().getLength()));
+                    System.out.println("I am in remove update. " + e.getDocument().getText(0, e.getDocument().getLength()));
                 } catch (BadLocationException ex) {
                     throw new RuntimeException(ex);
                 }
