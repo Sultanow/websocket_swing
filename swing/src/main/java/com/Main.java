@@ -10,11 +10,10 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        CountDownLatch latch = new CountDownLatch(1);
-		PocView pocView = new PocView();
-		PocModel pocModel = new PocModel();
-
-		PocPresenter pocPresenter = new PocPresenter(pocView, pocModel);
+        var latch = new CountDownLatch(1);
+		var pocView = new PocView();
+		var pocModel = new PocModel();
+		var _ = new PocPresenter(pocView, pocModel);
 
 		latch.await();
 

@@ -10,13 +10,8 @@ public class PocPresenter {
         this.view = view;
         this.model = model;
 
-        this.view.button.addActionListener(e -> {
-            System.out.println("Button clicked!");
+        this.view.button.addActionListener(_ -> {
+            model.action();
         });
     }
-
-
-
-
-
 }
