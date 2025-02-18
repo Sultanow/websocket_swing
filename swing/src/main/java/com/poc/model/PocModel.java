@@ -26,6 +26,8 @@ public class PocModel {
     }
 
     public void action() {
-        System.out.println("Action performed");
+        for(var val : ModelProperties.values()) {
+            System.out.println(val.toString() + ": " + model.get(val).getField());
+        }
     }
 }

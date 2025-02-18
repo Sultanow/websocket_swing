@@ -26,12 +26,13 @@ public class PocPresenter {
     }
 
     private void bind(JTextComponent source, ModelProperties prop) {
+        var model = (ValueModel<String>) PocPresenter.this.model.model.get(prop);
+        model.setField(source.getText());
         source.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 try {
                     var content = e.getDocument().getText(0, e.getDocument().getLength());
-                    var model = (ValueModel<String>) PocPresenter.this.model.model.get(prop);
                     model.setField(content);
                     System.out.println(e.getDocument().getText(0, e.getDocument().getLength()));
                 } catch (BadLocationException ex) {
@@ -60,8 +61,9 @@ public class PocPresenter {
 
 
     private void bind(JRadioButton source, ModelProperties prop) {
+        var model = (ValueModel<Boolean>) PocPresenter.this.model.model.get(prop);
+        model.setField(source.isSelected());
         source.addChangeListener(evt -> {
-            var model = (ValueModel<Boolean>) PocPresenter.this.model.model.get(prop);
             model.setField(source.isSelected());
             System.out.println(source.isSelected());
         });
@@ -70,6 +72,15 @@ public class PocPresenter {
 
     private void initializeBindings() {
         bind(view.textArea, ModelProperties.TEXT_AREA);
+        bind(view.firstName, ModelProperties.FIRST_NAME);
+        bind(view.name, ModelProperties.LAST_NAME);
+        bind(view.dateOfBirth, ModelProperties.DATE_OF_BIRTH);
+        bind(view.zip, ModelProperties.ZIP);
+        bind(view.ort, ModelProperties.ORT);
+        bind(view.street, ModelProperties.STREET);
+        bind(view.iban, ModelProperties.IBAN);
+        bind(view.bic, ModelProperties.BIC);
+        bind(view.validFrom, ModelProperties.VALID_FROM);
         bind(view.male, ModelProperties.MALE);
         bind(view.female, ModelProperties.FEMALE);
         bind(view.diverse, ModelProperties.DIVERSE);
