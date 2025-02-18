@@ -7,21 +7,20 @@ import javax.swing.*;
 public class PocView {
     protected JFrame frame = new JFrame("Allegro");
     protected JTextArea textArea = new JTextArea();
-    protected JTextField tf_name = new JTextField();
-    protected JTextField tf_first = new JTextField();
-    protected JTextField tf_dob = new JTextField();
-    protected JTextField tf_zip = new JTextField();
-    protected JTextField tf_ort = new JTextField();
-    protected JTextField tf_street = new JTextField();
-    protected JTextField tf_hausnr = new JTextField();
-    protected JTextField tf_ze_iban = new JTextField();
-    protected JTextField tf_ze_bic = new JTextField();
-    protected JTextField tf_ze_valid_from = new JTextField();
+    protected JTextField name = new JTextField();
+    protected JTextField firstName = new JTextField();
+    protected JTextField dateOfBirth = new JTextField();
+    protected JTextField zip = new JTextField();
+    protected JTextField ort = new JTextField();
+    protected JTextField street = new JTextField();
+    protected JTextField iban = new JTextField();
+    protected JTextField bic = new JTextField();
+    protected JTextField validFrom = new JTextField();
 
-    protected JRadioButton rb_female = new JRadioButton("Weiblich");
-    protected JRadioButton rb_male = new JRadioButton("Männlich");
-    protected JRadioButton rb_diverse = new JRadioButton("Divers");
-    protected ButtonGroup bg_gender = new ButtonGroup();
+    protected JRadioButton female = new JRadioButton("Weiblich");
+    protected JRadioButton male = new JRadioButton("Männlich");
+    protected JRadioButton diverse = new JRadioButton("Divers");
+    protected ButtonGroup gender = new ButtonGroup();
 
     protected JButton button = new JButton("Anordnen");
 
@@ -32,7 +31,6 @@ public class PocView {
     private void initUI() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-
         GridBagConstraints c = new GridBagConstraints();
         c.ipady = 4;
         c.insets = new Insets(4, 4, 4, 4);
@@ -48,7 +46,7 @@ public class PocView {
         c.gridy = 0;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_first, c);
+        panel.add(firstName, c);
 
         c.gridx = 2;
         c.gridy = 0;
@@ -60,7 +58,7 @@ public class PocView {
         c.gridy = 0;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_name, c);
+        panel.add(name, c);
 
         c.gridx = 4;
         c.gridy = 0;
@@ -72,12 +70,12 @@ public class PocView {
         c.gridy = 0;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_dob, c);
+        panel.add(dateOfBirth, c);
 
-        bg_gender.add(rb_female);
-        bg_gender.add(rb_male);
-        bg_gender.add(rb_diverse);
-        rb_female.setSelected(true);
+        gender.add(female);
+        gender.add(male);
+        gender.add(diverse);
+        female.setSelected(true);
 
         c.gridx = 0;
         c.gridy = 1;
@@ -87,9 +85,9 @@ public class PocView {
 
         JPanel genderPanel = new JPanel();
         genderPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        genderPanel.add(rb_female);
-        genderPanel.add(rb_male);
-        genderPanel.add(rb_diverse);
+        genderPanel.add(female);
+        genderPanel.add(male);
+        genderPanel.add(diverse);
 
         c.gridx = 1;
         c.gridy = 1;
@@ -112,7 +110,7 @@ public class PocView {
         c.gridy = 2;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_street, c);
+        panel.add(street, c);
 
         c.gridx = 2;
         c.gridy = 2;
@@ -124,7 +122,7 @@ public class PocView {
         c.gridy = 2;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_zip, c);
+        panel.add(zip, c);
 
         c.gridx = 4;
         c.gridy = 2;
@@ -136,7 +134,7 @@ public class PocView {
         c.gridy = 2;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_ort, c);
+        panel.add(ort, c);
 
         c.gridx = 0;
         c.gridy = 3;
@@ -148,7 +146,7 @@ public class PocView {
         c.gridy = 3;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_ze_iban, c);
+        panel.add(iban, c);
 
         c.gridx = 2;
         c.gridy = 3;
@@ -160,7 +158,7 @@ public class PocView {
         c.gridy = 3;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_ze_bic, c);
+        panel.add(bic, c);
 
         c.gridx = 4;
         c.gridy = 3;
@@ -172,7 +170,7 @@ public class PocView {
         c.gridy = 3;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(tf_ze_valid_from, c);
+        panel.add(validFrom, c);
 
         c.gridx = 0;
         c.gridy = 4;
