@@ -9,6 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
+import java.io.IOException;
 
 public class PocPresenter {
     private PocView view;
@@ -19,7 +20,11 @@ public class PocPresenter {
         this.model = model;
 
         this.view.button.addActionListener(_ -> {
-            model.action();
+            try {
+                model.action();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         initializeBindings();

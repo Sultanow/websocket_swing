@@ -2,12 +2,15 @@ package com.poc.model;
 
 import com.poc.ValueModel;
 
+import java.io.IOException;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PocModel {
 
     public Map<ModelProperties, ValueModel<?>> model = new EnumMap<>(ModelProperties.class);
+    private HttpBinService httpBinService = new HttpBinService();
 
     public PocModel() {
         model.put(ModelProperties.TEXT_AREA, new ValueModel<String>(null));
@@ -25,9 +28,14 @@ public class PocModel {
         model.put(ModelProperties.DIVERSE, new ValueModel<Boolean>(null));
     }
 
-    public void action() {
+    public void action() throws IOException {
         for(var val : ModelProperties.values()) {
             System.out.println(val.toString() + ": " + model.get(val).getField());
         }
+        var data = new HashMap<String, String>();
+        for(var val : ModelProperties.values()) {
+            data.put(val.toString(), model.get(val).getField().toString());
+        }
+        httpBinService.post(data);
     }
 }
