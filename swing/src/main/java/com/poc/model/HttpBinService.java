@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class HttpBinService {
 
-    public static final String URL = "http://localhost:80";
+    public static final String URL = "http://localhost:8080";
     public static final String PATH = "/post";
     public static final String CONTENT_TYPE = "application/json";
 
